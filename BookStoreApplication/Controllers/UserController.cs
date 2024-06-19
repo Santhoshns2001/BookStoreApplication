@@ -119,7 +119,7 @@ namespace BookStoreApplication.Controllers
             UserModel result=userBuss.FetchByUSerId(userId);
             if (result != null)
             {
-                return Ok(new ResponseModel<UserModel> { IsSuccuss = true, Message = "data fetched succfully", Data = result });
+                return Ok(new ResponseModel<UserModel> { IsSuccuss = true, Message = "user fetched succussfully", Data = result });
             }
             else
             {
@@ -160,16 +160,6 @@ namespace BookStoreApplication.Controllers
             {
                 return BadRequest(new ResponseModel<string> { IsSuccuss = false, Message = " failed to update", Data = "something went wrong" });
             }
-        }
-
-        [HttpDelete]
-        [Route("DeleteUser")]
-        public ActionResult DeleteUser(int userId)
-        {
-
-
-
-
         }
 
 

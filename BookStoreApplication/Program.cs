@@ -55,6 +55,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<IUserBuss, UserBusiness>();
 builder.Services.AddTransient<IUserRepo, UserRepositary>();
 
+builder.Services.AddTransient<IBookBuss, BookBusiness>();
+builder.Services.AddTransient<IBookRepo, BookRepositary>();
+
 builder.Services.AddSwaggerGen(option =>
 {
     option.SwaggerDoc("v1", new OpenApiInfo { Title = "FundooNotes API", Version = "v1" });
