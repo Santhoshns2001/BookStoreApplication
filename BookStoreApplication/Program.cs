@@ -61,6 +61,9 @@ builder.Services.AddTransient<IBookRepo, BookRepositary>();
 builder.Services.AddTransient<ICartBuss, CartBusiness>();
 builder.Services.AddTransient<ICartRepo, CartRepositary>();
 
+builder.Services.AddTransient<IWishlistBuss, WishlistBusiness>();
+builder.Services.AddTransient<IWishlistRepo, WishlistRepositary>();
+
 builder.Services.AddSwaggerGen(option =>
 {
     option.SwaggerDoc("v1", new OpenApiInfo { Title = "BookStore Application", Version = "v1" });
