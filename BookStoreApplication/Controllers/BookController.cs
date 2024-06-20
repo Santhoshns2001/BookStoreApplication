@@ -20,7 +20,7 @@ namespace BookStoreApplication.Controllers
 
 
         [HttpPost]
-        [Route("AddNote")]
+        [Route("AddBook")]
         public IActionResult AddBook(BookModel model) 
         {
             Book book=bookBuss.AddBook(model);
@@ -66,7 +66,7 @@ namespace BookStoreApplication.Controllers
             }
         }
 
-        [HttpPost("UpdateBook")]
+        [HttpPut("UpdateBook")]
         public IActionResult UpdateBook(int bookId,BookModel model)
         {
             Book book=bookBuss.UpdateBook(bookId,model);
@@ -96,7 +96,7 @@ namespace BookStoreApplication.Controllers
 
         }
 
-        [HttpDelete("DeleteNotes")]
+        [HttpDelete("DeleteBook")]
         public IActionResult DeleteByBookId(int bookId)
         {
             bool res=bookBuss.DeleteBookById(bookId);

@@ -41,7 +41,7 @@ namespace RepositaryLayer.Service
                     cmd.Parameters.AddWithValue("@Author", bookModel.Author);
                     cmd.Parameters.AddWithValue("@Description", bookModel.Description);
                     cmd.Parameters.AddWithValue("@OriginalPrice", bookModel.OriginalPrice);
-                    cmd.Parameters.AddWithValue("@DiscountPercentage", bookModel.DiscountedPrice);
+                    cmd.Parameters.AddWithValue("@DiscountPercentage", bookModel.DiscountPercentage);
                     cmd.Parameters.AddWithValue("@Quantity", bookModel.Quantity);
                     cmd.Parameters.AddWithValue("@Image", bookModel.Image);
                     conn.Open();
@@ -226,7 +226,7 @@ namespace RepositaryLayer.Service
                     cmd.Parameters.AddWithValue("@Author", bookModel.Author);
                     cmd.Parameters.AddWithValue("@Description", bookModel.Description);
                     cmd.Parameters.AddWithValue("@OriginalPrice", bookModel.OriginalPrice);
-                    cmd.Parameters.AddWithValue("@DiscountPercentage", bookModel.DiscountedPrice);
+                    cmd.Parameters.AddWithValue("@DiscountPercentage", bookModel.DiscountPercentage);
                     cmd.Parameters.AddWithValue("@Quantity", bookModel.Quantity);
                     cmd.Parameters.AddWithValue("@Image", bookModel.Image);
                     conn.Open();

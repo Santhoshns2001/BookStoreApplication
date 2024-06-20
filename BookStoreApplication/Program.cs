@@ -58,9 +58,12 @@ builder.Services.AddTransient<IUserRepo, UserRepositary>();
 builder.Services.AddTransient<IBookBuss, BookBusiness>();
 builder.Services.AddTransient<IBookRepo, BookRepositary>();
 
+builder.Services.AddTransient<ICartBuss, CartBusiness>();
+builder.Services.AddTransient<ICartRepo, CartRepositary>();
+
 builder.Services.AddSwaggerGen(option =>
 {
-    option.SwaggerDoc("v1", new OpenApiInfo { Title = "FundooNotes API", Version = "v1" });
+    option.SwaggerDoc("v1", new OpenApiInfo { Title = "BookStore Application", Version = "v1" });
     option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         In = ParameterLocation.Header,

@@ -145,7 +145,7 @@ namespace BookStoreApplication.Controllers
         }
 
         [Authorize]
-        [HttpPost]
+        [HttpPut]
         [Route("UpdateUser")]
         public ActionResult UpdateUser( UserModel user) 
         {
