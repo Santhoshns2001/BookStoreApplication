@@ -7,7 +7,9 @@ using System.Threading.Tasks;
 
 namespace RepositaryLayer.Service
 {
+
     public class AddressRepositary :IAddressRepo
     {
+
     }
 }

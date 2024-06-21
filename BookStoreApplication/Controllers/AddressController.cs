@@ -1,4 +1,4 @@
-﻿using BusinessLayer.Interfaces;
+using BusinessLayer.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,6 +14,5 @@ namespace BookStoreApplication.Controllers
         {
             this.addressBuss = addressBuss;
         }
-
     }
 }

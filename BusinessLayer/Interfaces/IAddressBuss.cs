@@ -8,5 +8,6 @@ namespace BusinessLayer.Interfaces
 {
     public interface IAddressBuss
     {
+
     }
 }
