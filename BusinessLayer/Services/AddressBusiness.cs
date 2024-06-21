@@ -1,4 +1,5 @@
 ﻿using BusinessLayer.Interfaces;
+using RepositaryLayer.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,5 +10,11 @@ namespace BusinessLayer.Services
 {
     public class AddressBusiness :IAddressBuss
     {
+        private readonly IAddressRepo addressRepo;
+
+        public AddressBusiness(IAddressRepo addressRepo)
+        {
+            this.addressRepo = addressRepo;
+        }
     }
 }
