@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ModelLayer
+namespace RepositaryLayer.Entities
 {
-    public class AddressModel
+    public class Addresses
     {
-        
+        public int AddressId { get; set; }
+        public int UserId { get; set; }
         public string FullName { get; set; }
         public long Mobile { get; set; }
         public string Address { get; set; }

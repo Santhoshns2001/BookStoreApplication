@@ -26,7 +26,6 @@ namespace RepositaryLayer.Service
             conn.ConnectionString = sqlConnectionString;
         }
         
-        //int NoOfBooksInUserCart(int userId);
 
         public Cart AddBookToCart(int bookid,int userid)
         {

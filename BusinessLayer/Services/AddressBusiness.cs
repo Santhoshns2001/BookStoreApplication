@@ -1,4 +1,6 @@
 ﻿using BusinessLayer.Interfaces;
+using ModelLayer;
+using RepositaryLayer.Entities;
 using RepositaryLayer.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -17,5 +19,34 @@ namespace BusinessLayer.Services
             this.addressRepo = addressRepo;
         }
 
+        public Addresses AddAddress(int userId, AddressModel addressModel)
+        {
+            return addressRepo.AddAddress(userId, addressModel);
+        }
+
+       public List<Addresses> GetAddressesByUser(int userid)
+        {
+           return addressRepo.GetAddressesByUser(userid);
+        }
+
+       public List<Addresses> GetAddressesByUserIdAndAddressId(int userid, int addressId)
+        {
+           return addressRepo.GetAddressesByUserIdAndAddressId(userid, addressId);
+        }
+
+      public  List<Addresses> GetAllAddresses()
+        {
+            return addressRepo.GetAllAddresses();   
+        }
+
+      public bool RemoveAddress(int userid, int addressId)
+        {
+           return addressRepo.RemoveAddress(userid, addressId);
+        }
+
+      public Addresses UpdateAddress(int userid, int addressid, AddressModel model)
+        {
+          return addressRepo.UpdateAddress(userid,addressid,model);
+        }
     }
 }
