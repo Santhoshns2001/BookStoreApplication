@@ -112,6 +112,21 @@ namespace BookStoreApplication.Controllers
 
         }
 
+        [HttpGet("GetCartDetailsWithUsers")]
+        public IActionResult GetCartDetailsWithUsers()
+        {
+            var cartdetails = cartBuss.GetCartDetailsWithUsers();
+            if (cartdetails != null)
+            {
+                return Ok(new ResponseModel<List<CartDetails>> { IsSuccuss = true, Message = "number of carts of the user is ", Data = cartdetails });
+            }
+            else
+            {
+                return BadRequest(new ResponseModel<string> { IsSuccuss = false, Message = " failed to fetch the cartdetails", Data = "unable to fetch cart details " });
+            }
+
+        }
+
 
     }
 }

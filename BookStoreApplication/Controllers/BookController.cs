@@ -81,20 +81,7 @@ namespace BookStoreApplication.Controllers
 
         }
 
-        [HttpGet("FetchByAuthorOrTitle")]
-        public IActionResult FetchByAuthorOrTitle(string? author, string? title)
-        {
-            List<Book> books=bookBuss.FetchByAuthorOrTitle(author, title);
-            if (books != null)
-            {
-                return Ok(new ResponseModel <List<Book>> { IsSuccuss = true, Message = "book fetched  succussfully", Data = books });
-            }
-            else
-            {
-                return BadRequest(new ResponseModel<string> { IsSuccuss = false, Message = " failed to fetch", Data = " no matched input" });
-            }
-
-        }
+      
 
         [HttpDelete("DeleteBook")]
         public IActionResult DeleteByBookId(int bookId)
@@ -110,6 +97,44 @@ namespace BookStoreApplication.Controllers
             }
 
         }
+
+
+
+
+        // 1) Find the book using any two columns of table.
+
+        [HttpGet("FetchByAuthorOrTitle")]
+        public IActionResult FetchByAuthorOrTitle(string? author, string? title)
+        {
+            List<Book> books = bookBuss.FetchByAuthorOrTitle(author, title);
+            if (books != null)
+            {
+                return Ok(new ResponseModel<List<Book>> { IsSuccuss = true, Message = "book fetched  succussfully", Data = books });
+            }
+            else
+            {
+                return BadRequest(new ResponseModel<string> { IsSuccuss = false, Message = " failed to fetch", Data = " no matched input" });
+            }
+
+        }
+
+        // 2)Find the data using bookid, if it exst update the data else insert the new book record.
+
+        [HttpGet("FindByBookId")]
+        // public IActionResult FindByBookId(int bookId, BookModel model)
+        public IActionResult FindByBookId(int bookId, string Title,string author,string description,int originalprice,int disPercentage,int quantity,string image)
+        {
+            Book book = bookBuss.FindByBookId(bookId,Title,author,description,originalprice,disPercentage,quantity,image);
+            if (book != null)
+            {
+                return Ok(new ResponseModel<Book> { IsSuccuss = true, Message = "book fetched succussfully", Data = book });
+            }
+            else
+            {
+                return BadRequest(new ResponseModel<string> { IsSuccuss = false, Message = " failed to fetch", Data = "wrong book id is been provided " });
+            }
+        }
+
 
 
     }

@@ -1,4 +1,5 @@
-﻿using RepositaryLayer.Entities;
+﻿using ModelLayer;
+using RepositaryLayer.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace BusinessLayer.Interfaces
         public bool RemoveCart(int CartId);
         public List<Cart> ViewAllCarts();
         public int NoOfBooksInUserCart(int userid);
+        public List<CartDetails> GetCartDetailsWithUsers();
 
     }
 }

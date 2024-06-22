@@ -224,5 +224,47 @@ namespace RepositaryLayer.Service
 
         }
 
+        public List<CartDetails> GetCartDetailsWithUsers()
+        {
+            List<CartDetails> cartdetails = new List<CartDetails>();
+            try
+            {
+                if (conn != null)
+                {
+                    SqlCommand cmd = new SqlCommand("usp_GetCartDetailsWithUsers", conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    conn.Open();
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+
+                        CartDetails cart = new CartDetails()
+                        {
+                            FullName = (string)reader["FullName"],
+                            Email = (string)reader["Email"],
+                            CartId = (int)reader["CartId"],
+                            UserId = (int)reader["UserId"],
+                            BookId = (int)reader["BookId"],
+                            Title = (string)reader["Title"],
+                            Author = (string)reader["Author"],
+                            Image = (string)reader["Image"],
+                            Quantity = (int)reader["Quantity"],
+                            OriginalBookPrice = (int)reader["OriginalBookPrice"],
+                            FinalBookPrice = (int)reader["FinalBookPrice"]
+                        };
+                        cartdetails.Add(cart);
+                    }
+                    return cartdetails;
+                }
+                else
+                {
+                    throw new Exception("connection was not established");
+                }
+            }
+            catch (Exception ex) { throw ex; }
+            finally { conn.Close(); }
+        }
+
+
     }
 }

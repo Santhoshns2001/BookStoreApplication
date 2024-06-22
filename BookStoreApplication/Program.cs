@@ -70,6 +70,9 @@ builder.Services.AddTransient<IAddressRepo, AddressRepositary>();
 builder.Services.AddTransient<IOrderBuss, OrdersBusiness>();
 builder.Services.AddTransient<IOrderRepo, OrderRepositary>();
 
+builder.Services.AddTransient<IFeedbackBuss, FeedbackBusiness>();
+builder.Services.AddTransient<IFeedbackRepo, FeedbackRepositary>();
+
 builder.Services.AddSwaggerGen(option =>
 {
     option.SwaggerDoc("v1", new OpenApiInfo { Title = "BookStore Application", Version = "v1" });

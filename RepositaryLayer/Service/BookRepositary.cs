@@ -165,51 +165,7 @@ namespace RepositaryLayer.Service
         }
 
 
-        public List<Book> FetchByAuthorOrTitle(string author,string title)
-        {
-           List< Book> books = new List<Book>();
-            try
-            {
-                if (conn != null)
-                {
-                    SqlCommand cmd = new SqlCommand("usp_FetchByTitle_Author", conn);
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    cmd.Parameters.AddWithValue("@Author", author);
-                    cmd.Parameters.AddWithValue("@Title", title);
-                    conn.Open();
-
-                    SqlDataReader reader= cmd.ExecuteReader();
-                    while (reader.Read())
-                    {
-                       Book book = new Book()
-                        {
-                            BookId = (int)reader["BookId"],
-                            Title = (string)reader["Title"],
-                            Author = (string)reader["Author"],
-                            Description = (string)reader["Description"],
-                            OriginalPrice = (int)reader["OriginalPrice"],
-                            DiscountPercentage = (int)reader["DiscountPercentage"],
-                            Quantity = (int)reader["Quantity"],
-                            Image = (string)reader["Image"],
-                            Rating = (decimal)reader["Rating"],
-                            RatingCount = (int)reader["RatingCount"],
-                            Price = (int)reader["Price"]
-                        };
-                        books.Add(book);
-                    }
-                    return books.ToList();
-                   
-
-                }
-                else
-                {
-                    throw new Exception("connection was not established");
-                }
-            }
-            catch (Exception ex) { throw ex; }
-            finally { conn.Close(); }
-        }
+       
 
         public Book UpdateBook(int bookId,BookModel bookModel)
         {
@@ -286,6 +242,108 @@ namespace RepositaryLayer.Service
                 }
             }
             catch (Exception ex) { throw ex; }
+            finally { conn.Close(); }
+        }
+
+       // 1) Find the book using any two columns of table.
+
+        public List<Book> FetchByAuthorOrTitle(string author, string title)
+        {
+            List<Book> books = new List<Book>();
+            try
+            {
+                if (conn != null)
+                {
+                    SqlCommand cmd = new SqlCommand("usp_FetchByTitle_Author", conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@Author", author);
+                    cmd.Parameters.AddWithValue("@Title", title);
+                    conn.Open();
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        Book book = new Book()
+                        {
+                            BookId = (int)reader["BookId"],
+                            Title = (string)reader["Title"],
+                            Author = (string)reader["Author"],
+                            Description = (string)reader["Description"],
+                            OriginalPrice = (int)reader["OriginalPrice"],
+                            DiscountPercentage = (int)reader["DiscountPercentage"],
+                            Quantity = (int)reader["Quantity"],
+                            Image = (string)reader["Image"],
+                            Rating = (decimal)reader["Rating"],
+                            RatingCount = (int)reader["RatingCount"],
+                            Price = (int)reader["Price"]
+                        };
+                        books.Add(book);
+                    }
+                    return books.ToList();
+
+
+                }
+                else
+                {
+                    throw new Exception("connection was not established");
+                }
+            }
+            catch (Exception ex) { throw ex; }
+            finally { conn.Close(); }
+        }
+
+        //2)Find the data using bookid, if it exst update the data else insert the new book record.
+
+        public Book FindByBookId(int bookId, string Title, string author, string description, int originalprice, int disPercentage, int quantity, string image)
+        {
+            Book book = null;
+            try
+            {
+                if (conn != null)
+                {
+                    SqlCommand cmd = new SqlCommand("usp_FindByBookId", conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@bookId", bookId);
+                    cmd.Parameters.AddWithValue("@Title", Title);
+                    cmd.Parameters.AddWithValue("@Author", author);
+                    cmd.Parameters.AddWithValue("@Description", description);
+                    cmd.Parameters.AddWithValue("@OriginalPrice",originalprice);
+                    cmd.Parameters.AddWithValue("@DiscountPercentage", disPercentage);
+                    cmd.Parameters.AddWithValue("@Quantity", quantity);
+                    cmd.Parameters.AddWithValue("@Image",image);
+                    conn.Open();
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        book = new Book()
+                        {
+                            BookId = (int)reader["BookId"],
+                            Title = (string)reader["Title"],
+                            Author = (string)reader["Author"],
+                            Description = (string)reader["Description"],
+                            OriginalPrice = (int)reader["OriginalPrice"],
+                            DiscountPercentage = (int)reader["DiscountPercentage"],
+                            Quantity = (int)reader["Quantity"],
+                            Image = (string)reader["Image"],
+                            Rating = (decimal)reader["Rating"],
+                            RatingCount = (int)reader["RatingCount"],
+                            Price = (int)reader["Price"]
+                        };
+                    }
+                    return book;
+                }
+                else
+                {
+                    return null;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
             finally { conn.Close(); }
         }
 

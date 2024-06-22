@@ -14,8 +14,9 @@ namespace BusinessLayer.Interfaces
         public List<Book> GetAllBooks();
         public Book GetByBookId(int bookId);
         public Book UpdateBook(int bookId, BookModel bookModel);
-        public List<Book> FetchByAuthorOrTitle(string author, string title);
         public bool DeleteBookById(int bookId);
+        public List<Book> FetchByAuthorOrTitle(string author, string title);
+        public Book FindByBookId( int bookId, string Title, string author, string description, int originalprice, int disPercentage, int quantity, string image);
 
 
 

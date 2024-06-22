@@ -48,5 +48,10 @@ namespace BusinessLayer.Services
         {
            return bookRepo.FetchByAuthorOrTitle(author, title);
         }
+
+       public Book FindByBookId(int bookId, string Title, string author, string description, int originalprice, int disPercentage, int quantity, string image)
+        {
+           return bookRepo.FindByBookId(bookId, Title, author, description, originalprice, disPercentage, quantity, image);
+        }
     }
 }

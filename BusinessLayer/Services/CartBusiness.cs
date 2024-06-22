@@ -1,4 +1,5 @@
 ﻿using BusinessLayer.Interfaces;
+using ModelLayer;
 using RepositaryLayer.Entities;
 using RepositaryLayer.Interfaces;
 using System;
@@ -46,6 +47,11 @@ namespace BusinessLayer.Services
       public  int NoOfBooksInUserCart(int userid)
         {
             return cartRepo.NoOfBooksInUserCart(userid);
+        }
+
+       public List<CartDetails> GetCartDetailsWithUsers()
+        {
+            return cartRepo.GetCartDetailsWithUsers();
         }
     }
 }

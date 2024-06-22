@@ -183,3 +183,29 @@ end
 exec usp_ViewAllCarts
 
 --*************************************************************************************************************************************
+														-- displaying cart details along with user details
+
+		--3) Display wishlist or cart details alongwith the user who has added it
+
+create or alter  proc usp_GetCartDetailsWithUsers
+AS
+BEGIN
+BEGIN TRY
+    SELECT 
+        u.userId, u.fullname, u.email, c.CartId, c.BookId, c.Title,c.Author,c.Image,c.Quantity,c.OriginalBookPrice,c.FinalBookPrice,
+        c.Quantity * c.FinalBookPrice AS TotalPrice 
+    FROM 
+        Carts c
+    JOIN 
+        User_Profile u ON c.UserId = u.userId
+    ORDER BY 
+        u.userId, c.CartId;
+END TRY
+BEGIN CATCH
+ THROW;
+END CATCH
+END;
+GO
+
+
+exec usp_GetCartDetailsWithUsers

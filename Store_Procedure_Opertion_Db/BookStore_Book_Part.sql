@@ -197,3 +197,52 @@ exec usp_FetchByTitle_Author '','t1'
 select * from Books
 
 --*************************************************************************************************************************************
+														-- find by book id if not exists insert the book
+
+		--2)Find the data using bookid, if it exst update the data else insert the new book record.
+
+create or alter proc usp_FindByBookId
+(
+    @bookId int,
+    @Title NVARCHAR(MAX),
+    @Author NVARCHAR(MAX),
+    @Description NVARCHAR(MAX),
+    @OriginalPrice INT,
+    @DiscountPercentage INT,
+    @Quantity INT,
+    @Image NVARCHAR(MAX)
+)
+as
+begin
+begin try
+  IF @bookId IS NULL OR @Title IS NULL or @Description is null or @OriginalPrice is null or @Quantity is null or @Image is null
+        BEGIN
+            ROLLBACK TRANSACTION;
+            RAISERROR('values cannot be NULL.', 16, 1);
+            RETURN;
+        END
+   if not exists (select 1 from Books where BookId=@bookId)
+      begin
+        INSERT INTO Books (Title, Author, Description, OriginalPrice, DiscountPercentage, Quantity, Image)
+        VALUES (@Title, @Author, @Description, @OriginalPrice, @DiscountPercentage, @Quantity, @Image);
+
+		declare @BookNo int=Scope_Identity();
+		select * from Books where BookId=@BookNo;
+      end
+else 
+begin
+update Books set Title=@Title,Author=@Author,Description=@Description,OriginalPrice=@OriginalPrice,
+DiscountPercentage=@DiscountPercentage,Quantity=@Quantity,Image=@Image where BookId=@bookId;
+
+select * from books where BookId=@bookId
+
+end
+end try
+begin catch
+throw;
+end catch
+end
+
+exec usp_FindByBookId 8,'title10','author10','disc10',250,25,20,'image10'
+
+--*************************************************************************************************************************************
