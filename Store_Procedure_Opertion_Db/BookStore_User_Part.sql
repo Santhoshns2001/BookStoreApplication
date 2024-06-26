@@ -13,7 +13,7 @@ mobile bigint not null unique check(mobile >=6000000000 AND mobile <= 9999999999
 
 **************************************************************************************************************************
 												--User register
-create proc usp_UserRegister(
+create or alter proc usp_UserRegister(
 @fullname varchar(100),
 @email varchar(50),
 @password varchar(50),
@@ -23,11 +23,15 @@ as
 begin
 
 insert into User_Profile(fullName,email,password,mobile) 
-values (@fullname,@email,@password,@mobile)
+values (@fullname,@email,@password,@mobile);
+
+declare @userid int=scope_identity();
+
+select * from user_profile where userid=@userid
 end
 
 
-exec usp_UserRegister 'santhosh kumar','santhosh@gmail.com','santhu2001',911089439344
+exec usp_UserRegister 'aishwarya','aishu123@gmail.com','aishu@123',9632587412
 
 
 
@@ -123,7 +127,7 @@ exec usp_FetchAllUsers
 
 *****************************************************************************************************************************
 												-- update user
-create proc usp_UpdateUser(
+create or alter proc usp_UpdateUser(
 @userId int,
 @fullname varchar(100),
 @email varchar(50),
@@ -132,10 +136,18 @@ create proc usp_UpdateUser(
 )
 as
 begin
+if not exists (select 1 from user_profile where userId=@userId)
+begin
+raiserror('provided user id not exists',16,1)
+end
+else
+begin
 update user_profile set fullname=@fullname, email=@email,password=@password,mobile=@mobile where userId=@userId 
+select * from user_profile where userId=@userId
+end
 end
 
-exec usp_UpdateUser 1,'santhosh kumar n_s','santhosh@gmail.com','santhu@2001',9110894393
+exec usp_UpdateUser 1,'santhosh ','santhosh@gmail.com','santhu@2001',9110894393
 
 select * from user_profile
 

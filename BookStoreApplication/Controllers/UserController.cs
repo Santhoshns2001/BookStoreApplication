@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ModelLayer;
+using RepositaryLayer.Entities;
 
 namespace BookStoreApplication.Controllers
 {
@@ -24,15 +25,15 @@ namespace BookStoreApplication.Controllers
         [Route("Register")]
         public ActionResult RegisterUser(UserModel userModel)
         {
-            var response = userBuss.RegisterUser(userModel);
+            User response = userBuss.RegisterUser(userModel);
 
             if (response != null)
             {
-                return Ok(new ResponseModel<UserModel> { IsSuccuss = true, Message = "process succuss", Data = response });
+                return Ok(new ResponseModel<User> { IsSuccuss = true, Message = "process succuss", Data = response });
             }
             else
             {
-                return BadRequest(new ResponseModel<UserModel> { IsSuccuss = false, Message = " failed to insert", Data = response });
+                return BadRequest(new ResponseModel<User> { IsSuccuss = false, Message = " failed to insert", Data = response });
             }
 
         }
@@ -116,10 +117,10 @@ namespace BookStoreApplication.Controllers
         [Route("FetchByUserId")]
         public ActionResult FetchByUserId(int userId)
         {   
-            UserModel result=userBuss.FetchByUSerId(userId);
+            User result=userBuss.FetchByUSerId(userId);
             if (result != null)
             {
-                return Ok(new ResponseModel<UserModel> { IsSuccuss = true, Message = "user fetched succussfully", Data = result });
+                return Ok(new ResponseModel<User> { IsSuccuss = true, Message = "user fetched succussfully", Data = result });
             }
             else
             {
@@ -132,11 +133,11 @@ namespace BookStoreApplication.Controllers
         [Route("FetchAllUsers")]
         public ActionResult FetchAllUsers()
         {
-            List<UserModel> users = userBuss.FetchAllUsers();
+            List<User> users = userBuss.FetchAllUsers();
 
             if (users != null)
             {
-                return Ok(new ResponseModel<List<UserModel>> { IsSuccuss = true, Message = "list of users fetched succussfully", Data = users });
+                return Ok(new ResponseModel<List<User>> { IsSuccuss = true, Message = "list of users fetched succussfully", Data = users });
             }
             else
             {
@@ -147,14 +148,14 @@ namespace BookStoreApplication.Controllers
         [Authorize]
         [HttpPut]
         [Route("UpdateUser")]
-        public ActionResult UpdateUser( UserModel user) 
+        public ActionResult UpdateUser( UserModel usermodel) 
         {
             int userId = int.Parse(User.FindFirst("userId").Value);
 
-            UserModel userModel=userBuss.UpdateUser(userId, user);
-            if (userModel != null)
+            User user=userBuss.UpdateUser(userId, usermodel);
+            if (user != null)
             {
-                return Ok(new ResponseModel<UserModel>{ IsSuccuss = true, Message = "updated succussfully", Data = userModel });
+                return Ok(new ResponseModel<User>{ IsSuccuss = true, Message = "updated succussfully", Data = user });
             }
             else
             {

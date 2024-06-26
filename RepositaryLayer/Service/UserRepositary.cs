@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using ModelLayer;
+using RepositaryLayer.Entities;
 using RepositaryLayer.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -33,20 +34,39 @@ namespace RepositaryLayer.Service
         }
         
 
-        public UserModel RegisterUser(UserModel user)
+        public User RegisterUser(UserModel usermodel)
         {
+            User user = null;
             try
             {
-                SqlCommand cmd = new SqlCommand("usp_UserRegister", conn);
-                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                if (conn != null)
+                {
+                    SqlCommand cmd = new SqlCommand("usp_UserRegister", conn);
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
-                cmd.Parameters.AddWithValue("@fullName", user.fullName);
-                cmd.Parameters.AddWithValue("@email", user.email);
-                cmd.Parameters.AddWithValue("@password", HashPassword(user.password));
-                cmd.Parameters.AddWithValue("@mobile", user.mobile);
-                conn.Open();
-                cmd.ExecuteNonQuery();
-                return user;
+                    cmd.Parameters.AddWithValue("@fullName", usermodel.fullName);
+                    cmd.Parameters.AddWithValue("@email", usermodel.email);
+                    cmd.Parameters.AddWithValue("@password", HashPassword(usermodel.password));
+                    cmd.Parameters.AddWithValue("@mobile", usermodel.mobile);
+                    conn.Open();
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        user = new User()
+                        {
+                            userId = (int)reader["userId"],
+                            fullname = (string)reader["fullname"],
+                            email = (string)reader["email"],
+                            password = (string)reader["password"],
+                            mobile = (long)reader["mobile"],
+                        };
+                    }
+                    return user;
+                }
+                else
+                {
+                    throw new Exception("connection was not established");
+                }
             }
             catch (Exception ex) { throw ex; }
             finally
@@ -106,9 +126,9 @@ namespace RepositaryLayer.Service
             finally { conn.Close(); }
         }
 
-       public UserModel FetchByUSerId(int userId)
+       public User FetchByUSerId(int userId)
         {
-            UserModel userModel = null;
+            User user = null;
 
             try
             {
@@ -121,16 +141,16 @@ namespace RepositaryLayer.Service
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        userModel = new UserModel()
+                        user = new User()
                         {
-                            
-                            fullName = (string)reader["fullname"],
+                            userId = (int)reader["userId"],
+                            fullname = (string)reader["fullname"],
                             email = (string)reader["email"],
                             password = (string)reader["password"],
                             mobile = (long)reader["mobile"],
                         };
                     }
-                    return userModel;
+                    return user;
                 }
                 else
                 {
@@ -142,9 +162,9 @@ namespace RepositaryLayer.Service
 
         }
 
-       public List<UserModel> FetchAllUsers()
+       public List<User> FetchAllUsers()
         {
-            List<UserModel> users=new List<UserModel> ();
+            List<User> users=new List<User> ();
             try
             {
                 if (conn != null)
@@ -155,15 +175,15 @@ namespace RepositaryLayer.Service
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        UserModel userModel = new UserModel()
+                        User user = new User()
                         {
-                           
-                            fullName = (string)reader["fullname"],
+                            userId = (int)reader["userId"],
+                            fullname = (string)reader["fullname"],
                             email = (string)reader["email"],
                             password = (string)reader["password"],
                             mobile = (long)reader["mobile"]
                         };
-                        users.Add(userModel);
+                        users.Add(user);
                     }
                     return users.ToList();
                 }
@@ -173,8 +193,9 @@ namespace RepositaryLayer.Service
             
         }
 
-      public  UserModel UpdateUser(int userId, UserModel user)
+      public  User UpdateUser(int userId, UserModel usermodel)
         {
+            User user = null;
             try
             {
                 if (conn!=null)
@@ -183,20 +204,31 @@ namespace RepositaryLayer.Service
                     cmd.CommandType = CommandType.StoredProcedure;
 
                     cmd.Parameters.AddWithValue("@userId", userId);
-                    cmd.Parameters.AddWithValue("@fullName", user.fullName);
-                    cmd.Parameters.AddWithValue("@email", user.email);
-                    cmd.Parameters.AddWithValue("@password", HashPassword(user.password));
-                    cmd.Parameters.AddWithValue("@mobile", user.mobile);
+                    cmd.Parameters.AddWithValue("@fullName", usermodel.fullName);
+                    cmd.Parameters.AddWithValue("@email", usermodel.email);
+                    cmd.Parameters.AddWithValue("@password", HashPassword(usermodel.password));
+                    cmd.Parameters.AddWithValue("@mobile", usermodel.mobile);
                     conn.Open();
-                    cmd.ExecuteNonQuery();
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        user = new User()
+                        {
+                            userId = (int)reader["userId"],
+                            fullname = (string)reader["fullname"],
+                            email = (string)reader["email"],
+                            password = (string)reader["password"],
+                            mobile = (long)reader["mobile"],
+                        };
+                    }
                     return user;
                 }
                 else
                 {
-                    return null;
+                    throw new Exception("connection was not established");
                 }
-
-            }catch(Exception ex) { throw ex; }
+            }
+            catch(Exception ex) { throw ex; }
             finally { conn.Close(); }
         }
 

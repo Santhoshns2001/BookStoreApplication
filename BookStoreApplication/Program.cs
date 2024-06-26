@@ -111,6 +111,14 @@ if (app.Environment.IsDevelopment())
     app.UseDeveloperExceptionPage();
 }
 
+app.UseCors(builder =>
+{
+    builder
+    .AllowAnyHeader()
+    .AllowAnyOrigin()
+    .AllowAnyMethod();
+});
+
 app.UseAuthentication();
 
 app.UseHttpsRedirection();

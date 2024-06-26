@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.Interfaces;
 using ModelLayer;
+using RepositaryLayer.Entities;
 using RepositaryLayer.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace BusinessLayer.Services
             this.userRepo = userRepo;
         }
 
-        public UserModel RegisterUser(UserModel user)
+        public User RegisterUser(UserModel user)
         {
             return userRepo.RegisterUser(user);
 
@@ -29,17 +30,17 @@ namespace BusinessLayer.Services
             return userRepo.LoginUser(email,password);
         }
 
-       public UserModel FetchByUSerId(int userId)
+       public User FetchByUSerId(int userId)
         {
            return userRepo.FetchByUSerId(userId);
         }
 
-        public List<UserModel> FetchAllUsers()
+        public List<User> FetchAllUsers()
         {
             return userRepo.FetchAllUsers();
         }
 
-       public UserModel UpdateUser(int userId, UserModel user)
+       public User UpdateUser(int userId, UserModel user)
         {
            return userRepo.UpdateUser(userId, user);
         }

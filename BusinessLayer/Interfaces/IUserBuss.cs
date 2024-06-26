@@ -1,4 +1,5 @@
 ﻿using ModelLayer;
+using RepositaryLayer.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +10,11 @@ namespace BusinessLayer.Interfaces
 {
     public interface IUserBuss
     {
-        List<UserModel> FetchAllUsers();
-        UserModel FetchByUSerId(int userId);
+        List<User> FetchAllUsers();
+        User FetchByUSerId(int userId);
         string LoginUser(string email, string password);
-        UserModel RegisterUser (UserModel user);
-        UserModel UpdateUser(int userId, UserModel user);
+        User RegisterUser (UserModel user);
+        User UpdateUser(int userId, UserModel user);
         public bool CheckEmail(string email);
         ForgotPasswordModel ForgotPassword(string email);
         bool ResetPassword(string email, ResetPasswordModel resetModel);
