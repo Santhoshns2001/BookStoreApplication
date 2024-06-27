@@ -1,4 +1,5 @@
 ﻿using BusinessLayer.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ModelLayer;
@@ -18,14 +19,11 @@ namespace BookStoreApplication.Controllers
             this.cartBuss = cartBuss;
         }
 
-
+        [Authorize]
         [HttpPost("AddBookToCart")]
-        public IActionResult AddBookToCart(int bookid, int userId)
+        public IActionResult AddBookToCart(int bookid)
         {
-            if (userId == 0)
-            {
-                userId = Convert.ToInt32(User.FindFirst("userId").Value);
-            }
+            var  userId = Convert.ToInt32(User.FindFirst("userId").Value);
 
             Cart cart = cartBuss.AddBookToCart(bookid, userId);
             if (cart != null)
@@ -40,8 +38,9 @@ namespace BookStoreApplication.Controllers
         }
 
         [HttpGet("GetAllCarts")]
-        public IActionResult ViewCartsByUser(int userId)
+        public IActionResult ViewCartsByUser()
         {
+            var userId = Convert.ToInt32(User.FindFirst("userId").Value);
             var carts =cartBuss.ViewCartsByUser(userId);
             if (carts != null)
             {
@@ -98,9 +97,10 @@ namespace BookStoreApplication.Controllers
         }
 
         [HttpGet("NoOfBooksInUserCart")]
-        public IActionResult NoOfBooksInUserCart(int userid)
+        public IActionResult NoOfBooksInUserCart()
         {
-            int carts = cartBuss.NoOfBooksInUserCart(userid);
+            var userId = Convert.ToInt32(User.FindFirst("userId").Value);
+            int carts = cartBuss.NoOfBooksInUserCart(userId);
             if (carts != 0)
             {
                 return Ok(new ResponseModel<int> { IsSuccuss = true, Message = "number of carts of the user is ", Data = carts });
