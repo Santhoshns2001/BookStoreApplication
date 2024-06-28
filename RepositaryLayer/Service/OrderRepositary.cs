@@ -27,7 +27,7 @@ namespace RepositaryLayer.Service
             conn.ConnectionString = sqlConnectionString;
         }
 
-        public Orders PlaceOrder(int userId, int cartid)
+        public Orders PlaceOrder(int userId, int cartid, int addressid)
         {
             Orders order = null;
             try
@@ -39,7 +39,8 @@ namespace RepositaryLayer.Service
 
                     cmd.Parameters.AddWithValue("@UserId", userId);
                     cmd.Parameters.AddWithValue("@CartId", cartid);
-                    
+                    cmd.Parameters.AddWithValue("@AddressId", addressid);
+
                     conn.Open();
                     SqlDataReader reader = cmd.ExecuteReader();
                     if (reader.Read())
@@ -47,7 +48,9 @@ namespace RepositaryLayer.Service
                         order = new Orders()
                         {
                             OrderId = (int)reader["OrderId"],
+                            
                             UserId= (int)reader["UserId"],
+                            AddressId= (int)reader["AddressId"],
                             BookId= (int)reader["UserId"],
                             Title=(string)reader["Title"],
                             Author= (string)reader["Author"],
@@ -88,6 +91,7 @@ namespace RepositaryLayer.Service
                         Orders order = new Orders()
                         {
                             OrderId = (int)reader["OrderId"],
+                            AddressId = (int)reader["AddressId"],
                             UserId = (int)reader["UserId"],
                             BookId = (int)reader["UserId"],
                             Title = (string)reader["Title"],
@@ -130,6 +134,7 @@ namespace RepositaryLayer.Service
                         Orders order = new Orders()
                         {
                             OrderId = (int)reader["OrderId"],
+                            AddressId = (int)reader["AddressId"],
                             UserId = (int)reader["UserId"],
                             BookId = (int)reader["UserId"],
                             Title = (string)reader["Title"],
@@ -175,7 +180,8 @@ namespace RepositaryLayer.Service
                         {
                             OrderId = (int)reader["OrderId"],
                             UserId = (int)reader["UserId"],
-                            BookId = (int)reader["UserId"],
+                             AddressId = (int)reader["AddressId"],
+                             BookId = (int)reader["UserId"],
                             Title = (string)reader["Title"],
                             Author = (string)reader["Author"],
                             Image = (string)reader["Image"],

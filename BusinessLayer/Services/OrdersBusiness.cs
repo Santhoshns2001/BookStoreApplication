@@ -23,9 +23,9 @@ namespace BusinessLayer.Services
            return orderRepo.CancelOrder(userid, orderid);
         }
 
-       public Orders PlaceOrder(int userId, int cartid)
+       public Orders PlaceOrder(int userId, int cartid, int addressid)
         {
-           return orderRepo.PlaceOrder(userId, cartid);
+           return orderRepo.PlaceOrder(userId, cartid,addressid);
         }
 
        public List<Orders> ViewAllOrders()

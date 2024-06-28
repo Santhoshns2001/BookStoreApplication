@@ -9,7 +9,7 @@ namespace RepositaryLayer.Interfaces
 {
     public interface IOrderRepo
     {
-        public Orders PlaceOrder(int userId, int cartid);
+        public Orders PlaceOrder(int userId, int cartid, int addressid);
         public List<Orders> ViewAllOrders();
         public List<Orders> ViewOrdersByUserId(int userid);
         public Orders ViewOrdersByOrderId(int orderId);

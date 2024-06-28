@@ -21,11 +21,11 @@ namespace BookStoreApplication.Controllers
         [Authorize]
         [HttpPost]
         [Route("PlaceOrder")]
-        public IActionResult PlaceOrder( int cartid)
+        public IActionResult PlaceOrder( int addressid,int cartid)
         {
             int userId = int.Parse(User.FindFirst("userId").Value);
 
-            Orders order = orderBuss.PlaceOrder(userId, cartid);
+            Orders order = orderBuss.PlaceOrder(userId, cartid,addressid);
 
             if (order != null)
             {

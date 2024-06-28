@@ -2,6 +2,7 @@
 create table Orders(
     OrderId int primary key identity,
     UserId int foreign key references User_profile(UserId),
+	AddressId int foreign key references Addresses(AddressId),
     BookId int foreign key references Books(BookId),
     Title nvarchar(max) not null,
     Author nvarchar(max) not null,
@@ -13,14 +14,15 @@ create table Orders(
     IsDeleted bit default 0
 )
 
-select * from Orders
+select * from orders
 
 --*************************************************************************************************************************************
 														-- Add or place order
 CREATE OR ALTER PROCEDURE usp_PlaceOrder
 (
     @UserId INT,
-    @CartId INT
+    @CartId INT,
+    @AddressId INT
 )
 AS
 BEGIN
@@ -30,11 +32,11 @@ BEGIN
     BEGIN TRANSACTION;
 
     BEGIN TRY
-        -- Validate UserId and CartId
-        IF @UserId IS NULL OR @CartId IS NULL
+        -- Validate UserId, CartId, and AddressId
+        IF @UserId IS NULL OR @CartId IS NULL OR @AddressId IS NULL
         BEGIN
             ROLLBACK TRANSACTION;
-            RAISERROR('UserId and CartId cannot be NULL.', 16, 1);
+            RAISERROR('UserId, CartId, and AddressId cannot be NULL.', 16, 1);
             RETURN;
         END
 
@@ -86,8 +88,8 @@ BEGIN
         END
 
         -- Insert into Orders table
-        INSERT INTO Orders (UserId, BookId, Title, Author, Image, Quantity, TotalOriginalBookPrice, TotalFinalBookPrice, OrderDateTime, IsDeleted)
-        VALUES (@UserId, @BookId, @Title, @Author, @Image, @CartQuantity, @OriginalBookPrice * @CartQuantity, @TotalFinalBookPrice * @CartQuantity, GETDATE(), 0);
+        INSERT INTO Orders (UserId, AddressId, BookId, Title, Author, Image, Quantity, TotalOriginalBookPrice, TotalFinalBookPrice, OrderDateTime, IsDeleted)
+        VALUES (@UserId, @AddressId, @BookId, @Title, @Author, @Image, @CartQuantity, @OriginalBookPrice * @CartQuantity, @TotalFinalBookPrice * @CartQuantity, GETDATE(), 0);
 
         -- Get the new OrderId
         DECLARE @OrderId INT = SCOPE_IDENTITY();
@@ -128,9 +130,9 @@ BEGIN
     END CATCH
 END;
 
-select * from carts
+select * from Addresses
 
-exec usp_PlaceOrder 1,3
+exec usp_PlaceOrder 13,2,7
 select * from carts
 
 --*************************************************************************************************************************************
